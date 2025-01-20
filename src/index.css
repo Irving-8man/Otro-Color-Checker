@@ -68,3 +68,48 @@
         @apply bg-background text-foreground;
     }
 }
+
+
+
+
+.dark body {
+    background: hsl(0, 1%, 13%);
+    color: hsl(0 0% 96%);
+}
+
+
+.dark header svg path {
+    fill: white;
+}
+
+
+
+header svg {
+    width: 40%;
+    filter: drop-shadow(0 0 20px hsl(0 0% 50% / 0.75));
+}
+
+
+[aria-pressed=true] svg path:last-of-type,
+[aria-pressed=false] svg path:first-of-type {
+    display: none;
+}
+
+
+::view-transition-new(root) {
+    animation: grow 1s;
+}
+
+::view-transition-old(root) {
+    animation: none;
+}
+
+@keyframes grow {
+    0% {
+        clip-path: circle(0% at 50% 50%);
+    }
+
+    100% {
+        clip-path: circle(80% at 50% 50%);
+    }
+}

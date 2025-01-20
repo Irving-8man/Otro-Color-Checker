@@ -1,13 +1,17 @@
-import "./index.css"
+import { Route } from "wouter";
+import Header from "./components/sections/Header";
+import HomePage from "./views/HomePage";
+import MatrizAccesible from "./views/MatrizAccesible";
+import "./index.css";
 
-function App() {
-
-  return (
-    <main>
-      <p>Hola</p>
-    </main>
-    
-  )
+export default function App() {
+    return (
+        <>
+            <Header />
+            <Route path="/" component={HomePage} />
+            <Route path="/matriz-accesibilidad" component={MatrizAccesible} />
+        </>
+    )
 }
 
-export default App
+
