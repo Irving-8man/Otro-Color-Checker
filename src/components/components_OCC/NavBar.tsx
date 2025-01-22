@@ -1,11 +1,18 @@
-import { PaletaColor } from "@/types/tpyes";
 import { Button } from "@/components/ui/button";
-import { Eye, Grid2x2, History } from "lucide-react";
+import { Eye, Grid2x2, ScanEye ,Palette} from "lucide-react";
 import { Link } from "wouter";
+import PaletaRapida from "./PaletaRapida";
 
 
-export default function NavBar({ paleta }: { paleta: PaletaColor }) {
+export default function NavBar() {
+
+    
     const RUTAS_APP = [
+        {
+            nombre: "Mi Paleta",
+            link: "/",
+            icon: Palette
+        },
         {
             nombre: "Matriz de accesibilidad",
             link: "/matriz-accesibilidad",
@@ -15,23 +22,22 @@ export default function NavBar({ paleta }: { paleta: PaletaColor }) {
             link: "/vista-previa",
             icon: Eye
         },{
-            nombre:"Historial",
-            link:"/historial",
-            icon: History
+            nombre:"Daltonismo",
+            link:"/daltonismo",
+            icon: ScanEye
         }
         
     ]
 
     return (
-        <aside className="flex justify-start items-center gap-5 px-20 mt-3">
-            <h2 className="text-lg font-semibold">{paleta.nombre}</h2>
+        <div className="flex justify-between items-center gap-5 px-20 mt-3 mb-2">
             <nav>
-                <ul className="flex justify-between gap-2">
+                <ul className="flex justify-between gap-4">
                     {
                         RUTAS_APP.map((Ruta) => (
 
                             <li key={Ruta.nombre}>
-                                <Button asChild variant="link" className="font-normal">
+                                <Button asChild variant="link" className="font-normal border border-gray-200">
                                     <Link to={Ruta.link}>
                                         <Ruta.icon className="h-4 w-4" />
                                         <span>{Ruta.nombre}</span>
@@ -42,7 +48,9 @@ export default function NavBar({ paleta }: { paleta: PaletaColor }) {
                     }
                 </ul>
             </nav>
-        </aside>
+
+            <PaletaRapida />
+        </div>
     )
 }
 

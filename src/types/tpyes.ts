@@ -15,9 +15,21 @@ export interface PaletaColor {
 }
 
 
-export interface AppState {
-	palette: PaletaColor | null; // Puede iniciar vacío
-	historial: PaletaColor[]; // Historial de paletas modificadas
-	setPaletaColor: (paleta: PaletaColor) => void;
-	saveToHistory: () => void;
+export interface colorRGB {
+	r: number;
+	g: number;
+	b: number;
+}
+
+export interface Combinacion {
+    color1: Color;
+    color2: Color;
+    esMismoColor: boolean;
+}
+
+
+export interface ResultadoTest{
+	nivel:string;
+	resultado:boolean;
+	ratio:number;
 }
