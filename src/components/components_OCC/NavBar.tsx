@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Eye, Grid2x2, ScanEye ,Palette} from "lucide-react";
 import { Link } from "wouter";
-import PaletaRapida from "./PaletaRapida";
 
 
 export default function NavBar() {
@@ -30,7 +29,7 @@ export default function NavBar() {
     ]
 
     return (
-        <div className="flex justify-between items-center gap-5 px-20 mt-3 mb-2">
+        <div className="flex justify-start items-center gap-5 px-20 mt-3 mb-2">
             <nav>
                 <ul className="flex justify-between gap-4">
                     {
@@ -48,8 +47,6 @@ export default function NavBar() {
                     }
                 </ul>
             </nav>
-
-            <PaletaRapida />
         </div>
     )
 }

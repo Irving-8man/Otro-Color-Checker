@@ -1,11 +1,15 @@
 import PiezaCombinacion from "@/components/components_OCC/PiezaCombina";
 import { generarCombinacionesColor } from "@/lib/utils";
 import { useHistorialStore } from "@/store/HistorialStore";
+import { useMemo } from "react";
 
 export default function MatrizAccesible() {
     const { paletaGlobal } = useHistorialStore();
     const { colores } = paletaGlobal
-    const combinaciones = generarCombinacionesColor(colores);
+    // Memoización de combinaciones
+    const combinaciones = useMemo(() => {
+        return generarCombinacionesColor(colores);
+    }, [colores]); // Solo recalcular cuando los colores cambian
 
     return (
         <main className="px-20 py-10">

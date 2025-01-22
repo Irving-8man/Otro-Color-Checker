@@ -93,16 +93,21 @@ export function testAccesibilidad(combinacion: Combinacion): ResultadoTest[] {
         },
         {
             nivel: 'AAA-level normal text',
-            resultado: ratio >= 1/7,
+            resultado: ratio >= 7,
             ratio: ratioRedondeado,
         },
     ];
 }
 
-export function encontrarTestMayor(resultadoTests: ResultadoTest[]): ResultadoTest {
-    return resultadoTests.reduce((maxTest, currentTest) =>
+export function encontrarTestMayor(resultadoTests: ResultadoTest[]) {
+    const testMayor = resultadoTests.reduce((maxTest, currentTest) =>
         currentTest.ratio > maxTest.ratio ? currentTest : maxTest
     );
+    const testsPasados = resultadoTests.filter(test => test.resultado).length;
+    return {
+        testMayor,
+        testsPasados,
+    };
 }
 
 

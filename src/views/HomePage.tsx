@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { ArrowDownCircle, ArrowUpCircle, Plus } from "lucide-react";
+import { ArrowUpCircle, Plus } from "lucide-react";
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import SheetColor from "@/components/components_OCC/SheetColor";
 import { useHistorialStore } from "@/store/HistorialStore";
+import ImportPaleta from "@/components/components_OCC/ImportPaleta";
 
 
 
@@ -35,10 +36,7 @@ export default function HomePage() {
                             </Button>
                         </li>
                         <li>
-                            <Button variant={"secondary"}>
-                                <ArrowDownCircle className="w-4 h-4" />
-                                <span>Importar</span>
-                            </Button>
+                            <ImportPaleta />
                         </li>
                         <li>
                             <Button variant={"secondary"}>
@@ -51,14 +49,14 @@ export default function HomePage() {
             </section>
 
             <section className="flex justify-center mt-10 px-20">
-                <ul className="flex gap-6 flex-col" ref={animationParent}>
+                <ul className="flex gap-6" ref={animationParent}>
                     {
                         colores.map((color) => (
                             <li key={color.id} >
                                 <SheetColor color={color} onBorrarColor={eliminarColor} onActuliColor={actualizarColor}>
                                     <button
                                         style={{ backgroundColor: color.hex }}
-                                        className="min-w-[670px] px-20 py-10 relative hover:scale-105 transition-all rounded-sm shadow-xl border border-gray-300">
+                                        className="min-w-[100px] min-h-[300px] px-16 py-20 relative hover:scale-105 transition-all rounded-sm shadow-xl border border-gray-300">
                                         <h3
                                             className="bg-white inline-block absolute bottom-1 right-1 ">
                                             {color.nombre}-{color.hex}
