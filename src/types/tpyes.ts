@@ -1,14 +1,16 @@
 
-export interface Color {
-	id: string;
+export interface ColorSimple{
 	nombre: string;
 	hex: string;
+}
+
+export interface Color extends ColorSimple {
+	id: string;
 }
 
 
 export interface PaletaColor {
 	id: string;
-	nombre: string;
 	fechaCreado: string;
 	fechadActualizado: string;
 	colores: Color[]

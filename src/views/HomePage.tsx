@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { ArrowUpCircle, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import SheetColor from "@/components/components_OCC/SheetColor";
 import { useHistorialStore } from "@/store/HistorialStore";
 import ImportPaleta from "@/components/components_OCC/ImportPaleta";
+import ExportPaleta from "@/components/components_OCC/ExportPaleta";
 
 
 
@@ -39,10 +40,7 @@ export default function HomePage() {
                             <ImportPaleta />
                         </li>
                         <li>
-                            <Button variant={"secondary"}>
-                                <ArrowUpCircle className="w-4 h-4" />
-                                <span>Exportar</span>
-                            </Button>
+                            <ExportPaleta />
                         </li>
                     </ul>
                 </article>

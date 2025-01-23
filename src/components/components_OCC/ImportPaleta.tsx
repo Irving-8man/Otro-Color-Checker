@@ -21,6 +21,8 @@ import {
 } from "../ui/card"
 import { Textarea } from "../ui/textarea"
 import { useState } from "react"
+import { useHistorialStore } from "@/store/HistorialStore"
+
 
 
 export default function ImportPaleta() {
@@ -28,15 +30,14 @@ export default function ImportPaleta() {
     const [cssInput, setCssInput] = useState<string>(":root {\n  --nuevoColor1: #0D433F;\n  --nuevoColor2: #5BB0A9;\n}");
     const [jsonInput, setJsonInput] = useState<string>(JSON.stringify({
         paleta: [
-            { nombre: "color1", hex: "#ff5733" },
-            { nombre: "color2", hex: "#33cfff" },
+            { nombre: "nuevocolor1", hex: "#000000" },
+            { nombre: "nuevocolor2", hex: "#ffffff" },
         ]
     }, null, 2));
     const [activeTab, setActiveTab] = useState<"CSS" | "JSON">("CSS");
     const [loading, setLoading] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
-
-
+    const { importarColores } = useHistorialStore();
 
     const handleImport = () => {
         try {
@@ -50,24 +51,20 @@ export default function ImportPaleta() {
                     });
 
                 if (!cssVariables) {
-                    setLoading(false);
                     throw new Error("Formato CSS inválido.");
                 } else {
-                    console.log("CSS Importado:", cssVariables);
                     setOpen(false);
+                    importarColores(cssVariables)
                 }
-
 
             } else if (activeTab === "JSON") {
                 const parsedJson = JSON.parse(jsonInput);
                 if (!parsedJson.paleta || !Array.isArray(parsedJson.paleta)) {
-                    setLoading(false);
                     throw new Error("El JSON no tiene un formato válido.");
                 } else {
-                    console.log("JSON Importado:", parsedJson.paleta);
                     setOpen(false);
+                    importarColores(parsedJson.paleta)
                 }
-
             }
         } catch (error) {
             console.error("Error al importar la paleta:", error);
