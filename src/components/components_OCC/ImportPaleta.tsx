@@ -22,47 +22,86 @@ import {
 import { Textarea } from "../ui/textarea"
 import { useState } from "react"
 import { useHistorialStore } from "@/store/HistorialStore"
+import { ColorSimple } from "@/types/tpyes"
 
 
 
 export default function ImportPaleta() {
-    //Estados
-    const [cssInput, setCssInput] = useState<string>(":root {\n  --nuevoColor1: #0D433F;\n  --nuevoColor2: #5BB0A9;\n}");
-    const [jsonInput, setJsonInput] = useState<string>(JSON.stringify({
-        paleta: [
-            { nombre: "nuevocolor1", hex: "#000000" },
-            { nombre: "nuevocolor2", hex: "#ffffff" },
-        ]
-    }, null, 2));
+    // Estados iniciales
+    const initialCssInput = ":root {\n  --nuevoColor1: #0D433F;\n  --nuevoColor2: #5BB0A9;\n}";
+    const initialJsonInput = JSON.stringify(
+        {
+            paleta: [
+                { nombre: "nuevocolor1", hex: "#000000" },
+                { nombre: "nuevocolor2", hex: "#ffffff" },
+            ],
+        },
+        null,
+        2
+    );
+
+    const [cssInput, setCssInput] = useState<string>(initialCssInput);
+    const [jsonInput, setJsonInput] = useState<string>(initialJsonInput);
     const [activeTab, setActiveTab] = useState<"CSS" | "JSON">("CSS");
     const [loading, setLoading] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
     const { importarColores } = useHistorialStore();
+
+    // Restablece los estados al cerrar el diálogo
+    const handleDialogClose = (isOpen: boolean) => {
+        setOpen(isOpen);
+        if (!isOpen) {
+            reinciarData()
+        }
+    };
+
+    const reinciarData = () => {
+        setCssInput(initialCssInput);
+        setJsonInput(initialJsonInput);
+        setActiveTab("CSS");
+    }
+
+    const isValidHex = (hex: string) => /^#[0-9A-Fa-f]{6}$|^#[0-9A-Fa-f]{3}$/.test(hex);
 
     const handleImport = () => {
         try {
             setLoading(true);
             if (activeTab === "CSS") {
                 const cssVariables = cssInput
-                    .match(/--([\w-]+):\s*#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})/g)
-                    ?.map(variable => {
-                        const [key, value] = variable.split(":").map(v => v.trim());
+                    .match(/--([\w-]+):\s*#[0-9A-Fa-f]{3,6}/g) // Captura todas las líneas con formato --variable: #hex
+                    ?.map((line) => {
+                        const [key, value] = line.split(":").map((v) => v.trim());
                         return { nombre: key.replace("--", ""), hex: value };
                     });
-
-                if (!cssVariables) {
+                if (
+                    !cssVariables ||
+                    cssVariables.length === 0 ||
+                    cssVariables.some(
+                        (color) =>
+                            !color.nombre ||
+                            !color.hex ||
+                            !isValidHex(color.hex)
+                    )
+                ) {
                     throw new Error("Formato CSS inválido.");
                 } else {
                     setOpen(false);
+                    reinciarData()
                     importarColores(cssVariables)
                 }
 
             } else if (activeTab === "JSON") {
                 const parsedJson = JSON.parse(jsonInput);
-                if (!parsedJson.paleta || !Array.isArray(parsedJson.paleta)) {
+
+                if (!parsedJson.paleta ||
+                    !Array.isArray(parsedJson.paleta) ||
+                    parsedJson.paleta.some(
+                        (color: ColorSimple) => !color.nombre || !color.hex || !isValidHex(color.hex)
+                    )) {
                     throw new Error("El JSON no tiene un formato válido.");
                 } else {
                     setOpen(false);
+                    reinciarData()
                     importarColores(parsedJson.paleta)
                 }
             }
@@ -76,7 +115,7 @@ export default function ImportPaleta() {
 
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={handleDialogClose}>
             <DialogTrigger asChild>
                 <Button variant={"secondary"}>
                     <ArrowDownCircle className="w-4 h-4" />
@@ -101,13 +140,13 @@ export default function ImportPaleta() {
 
                     <TabsContent value="CSS">
                         <Card>
-                            <Textarea className="min-h-56 max-h-56" value={cssInput} disabled={loading} onChange={(e) => setCssInput(e.target.value)} />
+                            <Textarea className="min-h-56 max-h-56 resize-none" value={cssInput} disabled={loading} onChange={(e) => setCssInput(e.target.value)} />
                         </Card>
                     </TabsContent>
 
                     <TabsContent value="JSON">
                         <Card>
-                            <Textarea className="min-h-56 max-h-56" value={jsonInput} disabled={loading} onChange={(e) => setJsonInput(e.target.value)} />
+                            <Textarea className="min-h-56 max-h-56 resize-none" value={jsonInput} disabled={loading} onChange={(e) => setJsonInput(e.target.value)} />
                         </Card>
                     </TabsContent>
                 </Tabs>

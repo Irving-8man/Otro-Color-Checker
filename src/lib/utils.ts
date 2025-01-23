@@ -7,11 +7,18 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 
+export function completarHex(hex: string): string {
+    hex = hex.replace(/^#/, '');
+    return hex.length === 3 ? hex.split('').map((char) => char + char).join('') : hex
+}
+
+
 export function HexToRGB(hex: string): colorRGB | null {
     hex = hex.replace(/^#/, '');
+
     // Verificar si es una versión abreviada
     if (hex.length === 3) {
-        hex = hex.split('').map((char) => char + char).join(''); // Expande #fff a #ffffff
+        hex = hex.split('').map((char) => char + char).join('');
     }
 
     if (hex.length !== 6) {

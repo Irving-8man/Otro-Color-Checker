@@ -26,7 +26,7 @@ import { useState } from "react";
 export default function ExportPaleta() {
     const {paletaGlobal} = useHistorialStore();
     const [activeTab, setActiveTab] = useState<"CSS" | "JSON">("CSS");
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
 
     const generarExportacion = () => {
@@ -46,6 +46,19 @@ export default function ExportPaleta() {
         }
         return "";
     };
+
+    const copiarAlPortapapeles = () => {
+        const contenido = generarExportacion();
+        navigator.clipboard.writeText(contenido)
+            .then(() => {
+                alert(`${activeTab} copiado al portapapeles.`);
+            })
+            .catch((err) => {
+                console.error("Error al copiar al portapapeles:", err);
+                alert("No se pudo copiar. Inténtalo nuevamente.");
+            });
+    };
+
 
 
     return(
@@ -74,13 +87,13 @@ export default function ExportPaleta() {
 
                     <TabsContent value="CSS">
                         <Card>
-                            <Textarea className="min-h-56 max-h-56"  disabled={loading}  />
+                            <Textarea className="min-h-56 max-h-56" value={generarExportacion()} readOnly  disabled={loading}  />
                         </Card>
                     </TabsContent>
 
                     <TabsContent value="JSON">
                         <Card>
-                            <Textarea className="min-h-56 max-h-56" disabled={loading}  />
+                            <Textarea className="min-h-56 max-h-56" value={generarExportacion()} readOnly disabled={loading}  />
                         </Card>
                     </TabsContent>
                 </Tabs>
@@ -89,7 +102,7 @@ export default function ExportPaleta() {
                     <DialogClose asChild>
                         <Button variant={"ghost"} disabled={loading}>Cancelar</Button>
                     </DialogClose>
-                    <Button  disabled={loading}>Exportar {activeTab}</Button>
+                    <Button  disabled={loading} onClick={copiarAlPortapapeles}>Copiar en Portapapeles</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

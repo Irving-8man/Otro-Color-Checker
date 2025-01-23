@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { Color, ColorSimple, PaletaColor } from "@/types/tpyes";
 import { nanoid } from 'nanoid'
+import { completarHex } from "@/lib/utils";
 
 type PaletaState = {
     paletaGlobal: PaletaColor;
@@ -65,22 +66,29 @@ export const useHistorialStore = create<PaletaState>((set) => ({
         }),
     importarColores: (coloresImport: ColorSimple[]) =>
         set(() => {
-            // Ajustar la cantidad de colores importados
-            const coloresImportados = coloresImport.slice(0, 6); // Tomar los primeros 6 colores
-            // Si hay menos de 2 colores, rellenar con negro
-            while (coloresImportados.length < 2) {
-                coloresImportados.push({
-                    nombre: "Negro",
-                    hex: "#000000",
-                });
+            const coloresProcesados = coloresImport
+                .slice(0, 6)
+                .map((color) => {
+                    const hexCompleto = completarHex(color.hex);
+                    return hexCompleto
+                        ? { ...color, hex: `#${hexCompleto}` }
+                        : null;
+                })
+                .filter(Boolean) as ColorSimple[];
+
+            while (coloresProcesados.length < 2) {
+                coloresProcesados.push({ nombre: "colorMas", hex: "#000000" });
             }
+
+            const coloresConId: Color[] = coloresProcesados.map((color) => ({
+                ...color,
+                id: genId()
+            }));
+
             return {
                 paletaGlobal: {
                     id: genId(),
-                    colores: coloresImportados.map((color) => ({
-                        ...color,
-                        id: genId(), // Asegurar IDs únicos
-                    })),
+                    colores: coloresConId,
                     fechaCreado: Date.now().toString(),
                     fechadActualizado: Date.now().toString(),
                 },
