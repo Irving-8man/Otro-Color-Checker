@@ -8,16 +8,16 @@ export default function NavBar() {
     
     const RUTAS_APP = [
         {
-            nombre: "Mi Paleta",
+            nombre: "Paleta",
             link: "/",
             icon: Palette
         },
         {
-            nombre: "Matriz de accesibilidad",
+            nombre: "Accesibilidad",
             link: "/matriz-accesibilidad",
             icon: Grid2x2 
         },{
-            nombre: "Vista Previa",
+            nombre: "En acción",
             link: "/vista-previa",
             icon: Eye
         },{
@@ -29,17 +29,16 @@ export default function NavBar() {
     ]
 
     return (
-        <div className="flex justify-start items-center gap-5 px-20 mt-3 mb-2">
+        <div className="fixed bottom-0 lg:static w-full bge flex justify-between lg:justify-start items-center lg:gap-5 px-1 lg:px-20 mt-3 mb-2">
             <nav>
-                <ul className="flex justify-between gap-4">
+                <ul className="flex justify-between lg:gap-4">
                     {
                         RUTAS_APP.map((Ruta) => (
-
                             <li key={Ruta.nombre}>
-                                <Button asChild variant="link" className="font-normal border border-gray-200">
+                                <Button asChild variant="link" className="font-normal border border-gray-200" >
                                     <Link to={Ruta.link}>
                                         <Ruta.icon className="h-4 w-4" />
-                                        <span>{Ruta.nombre}</span>
+                                        <span className="text-wrap">{Ruta.nombre}</span>
                                     </Link>
                                 </Button>
                             </li>

@@ -23,8 +23,6 @@ export default function HomePage() {
         agregarColor(nuevoColor);
     };
 
-
-
     return (
         <main>
             <section className="mt-4">
@@ -46,26 +44,43 @@ export default function HomePage() {
                 </article>
             </section>
 
-            <section className="flex justify-center mt-10 px-20">
-                <ul className="flex gap-6" ref={animationParent}>
-                    {
-                        colores.map((color) => (
-                            <li key={color.id} >
-                                <SheetColor color={color} onBorrarColor={eliminarColor} onActuliColor={actualizarColor}>
-                                    <button
+            <section className="flex justify-center mt-10 px-6 md:px-20">
+                <ul
+                    className="flex flex-wrap gap-4 justify-center"
+                    ref={animationParent}
+                >
+                    {colores.map((color) => (
+                        <li key={color.id}>
+                            <SheetColor
+                                color={color}
+                                onBorrarColor={eliminarColor}
+                                onActuliColor={actualizarColor}
+                            >
+                                <button
+                                    className="group relative transition-transform transform hover:scale-105"
+                                >
+                                    {/* Caja de color */}
+                                    <div
+                                        className="min-w-[120px] min-h-[180px] sm:min-h-[250px] md:min-h-[350px] rounded-t-sm"
                                         style={{ backgroundColor: color.hex }}
-                                        className="min-w-[100px] min-h-[300px] px-16 py-20 relative hover:scale-105 transition-all rounded-sm shadow-xl border border-gray-300">
-                                        <h3
-                                            className="bg-white inline-block absolute bottom-1 right-1 ">
-                                            {color.nombre}-{color.hex}
+                                    ></div>
+
+                                    {/* Detalles */}
+                                    <div className="flex flex-col items-center bg-white p-2 rounded-b-sm shadow-md group-hover:shadow-lg transition-all">
+                                        <h3 className="text-sm md:text-base font-semibold text-gray-700 token-name">
+                                            {color.nombre}
                                         </h3>
-                                    </button>
-                                </SheetColor>
-                            </li>
-                        ))
-                    }
+                                        <span className="text-xs md:text-sm text-gray-500">
+                                            {color.hex}
+                                        </span>
+                                    </div>
+                                </button>
+                            </SheetColor>
+                        </li>
+                    ))}
                 </ul>
             </section>
+
         </main>
     )
 }

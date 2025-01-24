@@ -138,3 +138,21 @@ header svg {
     background-position: 0 0, var(--s) var(--s);
     background-size: calc(2*var(--s)) calc(2*var(--s));
 }
+
+
+body {
+    background-color: #f3f3f3;
+}
+
+
+.bge {
+    background-color: #f3f3f3;
+}
+
+
+.token-name {
+    max-width: 10ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
