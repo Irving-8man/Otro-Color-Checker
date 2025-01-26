@@ -64,7 +64,7 @@ export default function ExportPaleta() {
     return(
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant={"secondary"}>
+                <Button variant={"outline"}>
                     <ArrowUpCircle className="w-4 h-4" />
                     <span>Exportar</span>
                 </Button>

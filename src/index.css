@@ -150,9 +150,33 @@ body {
 }
 
 
-.token-name {
-    max-width: 10ch;
+.token-name,
+.token-name2 {
+    width: 15ch;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+
+.token-name2 {
+    width: 20ch;
+}
+
+.bgd {
+    background: linear-gradient(135deg, #e0e0e0, #f5f5f5);
+}
+
+
+.ee {
+    --s: 12px;
+    --c1: #efeeee;
+    --c2: #9f9d9d4d;
+
+    background:
+        conic-gradient(var(--c2) atan(2), var(--c1) 0 calc(180deg - atan(2)),
+            var(--c2) 0 180deg, var(--c1) 0 calc(180deg + atan(2)),
+            var(--c2) 0 calc(360deg - atan(2)), var(--c1) 0);
+    background-size: calc(2*var(--s)) var(--s);
+
 }

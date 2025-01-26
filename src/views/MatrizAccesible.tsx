@@ -9,24 +9,28 @@ export default function MatrizAccesible() {
     // Memoización de combinaciones
     const combinaciones = useMemo(() => {
         return generarCombinacionesColor(colores);
-    }, [colores]); // Solo recalcular cuando los colores cambian
+    }, [colores]);
 
     return (
-        <main className="px-20 py-10">
+        <main className="px-20 py-10 flex justify-center">
             <table className="border-collapse border border-gray-300">
+
                 <thead>
                     <tr>
-                        <th className="border border-gray-300 px-4 py-2 bg-gray-100">
-                            Background / Texto
+                        <th className="border-gray-300  px-4 py-8 w-[17ch] bg-gray-100 relative">
+                            <span className="absolute inline right-3 top-0">Texto</span>
+                            <span className="absolute inline bottom-0 left-3">Fondo</span>
+
                         </th>
-                        {colores.map(({ id, hex, nombre }) => (
+                        {colores.map(({ id, hex }) => (
                             <th
                                 key={id}
-                                className="border border-gray-300 px-4 py-2 text-center"
+                                className="border border-gray-300 px-6 py-3 text-center w-[15ch] font-normal"
                                 style={{ backgroundColor: hex }}
                             >
-                                <p className="text-xs font-bold text-white">{nombre}</p>
-                                <p className="text-[10px] text-white">{hex}</p>
+                                <div className="bg-gray-50 p-0 border">
+                                    <p className="text-sm token-name font-medium">{hex}</p>
+                                </div>
                             </th>
                         ))}
                     </tr>
@@ -38,13 +42,13 @@ export default function MatrizAccesible() {
                         <tr key={index}>
                             {/* Encabezado de fila - ColorBg */}
                             <th
-                                className="border border-gray-300 px-4 py-2 text-center"
+                                className="border border-gray-300  px-6 py-3 text-center w-[15ch] font-normal"
                                 style={{ backgroundColor: fila[0].color1.hex }}
                             >
-                                <p className="text-xs font-bold text-white">
-                                    {fila[0].color1.nombre}
-                                </p>
-                                <p className="text-[10px] text-white">{fila[0].color1.hex}</p>
+                                <div className="bg-white bg-transparent backdrop-opacity-100  px-2 py-1 border">
+                                    <p className="text-sm token-name font-medium"> {fila[0].color1.nombre}</p>
+                                    <p className="text-[12px]">{fila[0].color1.hex}</p>
+                                </div>
                             </th>
 
                             {/* Celdas internas - Combinaciones */}

@@ -1,11 +1,13 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { Color, colorRGB, Combinacion, ResultadoTest } from "@/types/tpyes";
+import { nanoid } from "nanoid";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
+export const generarId = () => nanoid();
 
 export function completarHex(hex: string): string {
     hex = hex.replace(/^#/, '');

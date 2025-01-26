@@ -13,6 +13,17 @@ import { Color } from "@/types/tpyes"
 import { ReactNode, useEffect, useState } from "react"
 import { Chrome } from '@uiw/react-color';
 import * as v from "valibot";
+import { Input } from "../ui/input";
+
+// Esquema de validación con Valibot
+const colorNameSchema = v.object({
+    nombre: v.pipe(
+        v.string(),
+        v.nonEmpty("El nombre no puede estar vacío."),
+        v.minLength(1, "El nombre debe tener al menos 1 carácter.")
+    ),
+});
+
 
 export default function SheetColor(
     {
@@ -31,23 +42,24 @@ export default function SheetColor(
     const [nombreColor, setNombreColor] = useState(color.nombre)
     const [colorLocal, setColorLocal] = useState(color);
     const [error, setError] = useState<string | null>(null);
-    const [open,setOpen] = useState<boolean>(false)
+    const [open, setOpen] = useState<boolean>(false)
 
-    // Esquema de validación con Valibot
-    const colorNameSchema = v.object({
-        nombre: v.pipe(
-            v.string(),
-            v.nonEmpty("El nombre no puede estar vacío."),
-            v.minLength(1, "El nombre debe tener al menos 1 carácter."),
-            v.maxLength(15, "El nombre no puede tener más de 15 caracteres.")
-        ),
-    });
-
-    //Escuchar los cambios
     useEffect(() => {
         setColorLocal(color);
         setNombreColor(color.nombre);
     }, [color]);
+
+
+    // Resetear estados locales al abrir/cerrar el Sheet
+    const handleSheetChange = (isOpen: boolean) => {
+        setOpen(isOpen);
+        if (!isOpen) {
+            // Restaurar valores originales si se cierra sin guardar
+            setColorLocal(color);
+            setNombreColor(color.nombre);
+            setError(null);
+        }
+    };
 
 
     const handleColorChange = (nuevoColor: { hex: string }) => {
@@ -75,31 +87,8 @@ export default function SheetColor(
         setOpen(false)
     };
 
-
-
-    /*
-    // Manejar cambio de color al seleccionar uno nuevo
-    const handleColorChange = (nuevoColor: { hex: string }) => {
-        if (nuevoColor.hex !== colorLocal.hex) {
-            const updatedColor = { ...colorLocal, hex: nuevoColor.hex };
-            setColorLocal(updatedColor);
-            onActuliColor(updatedColor);
-        }
-    };
-
-    // Función para manejar el cambio en el nombre del color
-    const handleNombreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const nuevoNombre = event.target.value;
-        if (nuevoNombre !== nombreColor) {
-            setNombreColor(nuevoNombre);
-            const updateColor = { ...colorLocal, nombre: nuevoNombre };
-            onActuliColor(updateColor);
-        }
-    };
-*/
-
     return (
-        <Sheet open={open} onOpenChange={setOpen}>
+        <Sheet open={open} onOpenChange={handleSheetChange}>
             <SheetTrigger asChild>
                 {
                     children
@@ -112,28 +101,33 @@ export default function SheetColor(
                         Realiza los cambios a tu color.
                     </SheetDescription>
                 </SheetHeader>
-                <div className="grid gap-4 py-4">
-                    <input
-                        type="text"
-                        value={nombreColor}
-                        onChange={handleNombreChange}
-                        placeholder={color.nombre}
-                        className="p-2 border rounded-md"
-                    />
+                <div className="mt-2 mb-8">
 
-                    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                    <div className="flex flex-col gap-2">
+                        <Input
+                            type="text"
+                            value={nombreColor}
+                            onChange={handleNombreChange}
+                            placeholder={color.nombre}
+                            className="py-6 border rounded-md"
+                        />
+                        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                    </div>
 
-                    <Chrome
-                        color={colorLocal.hex}
-                        onChange={handleColorChange}
-                        showAlpha={false}
-                    />
+                    <div className="flex justify-start mt-6">
+                        <Chrome
+                            color={colorLocal.hex}
+                            onChange={handleColorChange}
+                            showAlpha={false}
+                            className="mt-4"
+                        />
+                    </div>
+
                 </div>
                 <SheetFooter>
                     <SheetClose asChild>
                         <Button variant={"destructive"} onClick={() => onBorrarColor(color.id)}>Eliminar</Button>
                     </SheetClose>
-
                     <Button onClick={handleGuardarCambios}>Guardar cambios</Button>
                 </SheetFooter>
             </SheetContent>

@@ -23,7 +23,7 @@ export default function Header() {
     return (
         <>
             <header className="flex justify-between py-3 items-start px-3 lg:px-20">
-                <span className="text-lg">Un Color Checker</span>
+                <h1 className="text-lg">Otro Color Checker</h1>
 
                 <nav>
                     <ul className="flex gap-3 items-center">

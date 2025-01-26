@@ -117,7 +117,7 @@ export default function ImportPaleta() {
     return (
         <Dialog open={open} onOpenChange={handleDialogClose}>
             <DialogTrigger asChild>
-                <Button variant={"secondary"}>
+                <Button variant={"outline"}>
                     <ArrowDownCircle className="w-4 h-4" />
                     <span>Importar</span>
                 </Button>
