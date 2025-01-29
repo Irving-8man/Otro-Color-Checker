@@ -23,6 +23,7 @@ import { Textarea } from "../ui/textarea"
 import { useState } from "react"
 import { useHistorialStore } from "@/store/HistorialStore"
 import { ColorSimple } from "@/types/tpyes"
+import { useToast } from "@/hooks/use-toast"
 
 
 
@@ -46,6 +47,7 @@ export default function ImportPaleta() {
     const [loading, setLoading] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
     const { importarColores } = useHistorialStore();
+    const { toast } = useToast()
 
     // Restablece los estados al cerrar el diálogo
     const handleDialogClose = (isOpen: boolean) => {
@@ -64,6 +66,8 @@ export default function ImportPaleta() {
     const isValidHex = (hex: string) => /^#[0-9A-Fa-f]{6}$|^#[0-9A-Fa-f]{3}$/.test(hex);
 
     const handleImport = () => {
+        let exito: boolean = false;
+
         try {
             setLoading(true);
             if (activeTab === "CSS") {
@@ -87,7 +91,7 @@ export default function ImportPaleta() {
                 } else {
                     setOpen(false);
                     reinciarData()
-                    importarColores(cssVariables)
+                    exito = importarColores(cssVariables)
                 }
 
             } else if (activeTab === "JSON") {
@@ -102,12 +106,25 @@ export default function ImportPaleta() {
                 } else {
                     setOpen(false);
                     reinciarData()
-                    importarColores(parsedJson.paleta)
+                    exito = importarColores(parsedJson.paleta)
                 }
             }
+
+            if (exito) {
+                toast({
+                    title: 'Paleta importada con exito.',
+                });
+            } else {
+                toast({
+                    variant: 'destructive',
+                    title: '¡Oh no!, la paleta no se ha importado.',
+                });
+            }
         } catch (error) {
-            console.error("Error al importar la paleta:", error);
-            alert("Error al importar. Revisa el formato.");
+            toast({
+                variant: 'destructive',
+                title: `¡Oh no!, Error al importar. ${error}.`,
+            });
         } finally {
             setLoading(false);
         }

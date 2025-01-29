@@ -22,12 +22,14 @@ import {
 import { Textarea } from "../ui/textarea"
 import { useHistorialStore } from "@/store/HistorialStore";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast"
 
 export default function ExportPaleta() {
     const {paletaGlobal} = useHistorialStore();
     const [activeTab, setActiveTab] = useState<"CSS" | "JSON">("CSS");
-    const [loading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
+    const {toast} = useToast()
 
     const generarExportacion = () => {
         if (activeTab === "CSS") {
@@ -48,14 +50,24 @@ export default function ExportPaleta() {
     };
 
     const copiarAlPortapapeles = () => {
+        setLoading(true)
         const contenido = generarExportacion();
         navigator.clipboard.writeText(contenido)
             .then(() => {
-                alert(`${activeTab} copiado al portapapeles.`);
+                setOpen(false)
+                toast({
+                    title: `${activeTab} copiado al portapapeles.`,
+                });
             })
             .catch((err) => {
                 console.error("Error al copiar al portapapeles:", err);
-                alert("No se pudo copiar. Inténtalo nuevamente.");
+                toast({
+                    variant: 'destructive',
+                    title: '¡Oh no!, No se pudo copiar. Inténtalo nuevamente.',
+                });
+
+            }).finally(()=>{
+                setLoading(false)
             });
     };
 
@@ -87,13 +99,13 @@ export default function ExportPaleta() {
 
                     <TabsContent value="CSS">
                         <Card>
-                            <Textarea className="min-h-56 max-h-56" value={generarExportacion()} readOnly  disabled={loading}  />
+                            <Textarea className="min-h-56 max-h-56" value={generarExportacion()} readOnly   />
                         </Card>
                     </TabsContent>
 
                     <TabsContent value="JSON">
                         <Card>
-                            <Textarea className="min-h-56 max-h-56" value={generarExportacion()} readOnly disabled={loading}  />
+                            <Textarea className="min-h-56 max-h-56" value={generarExportacion()} readOnly   />
                         </Card>
                     </TabsContent>
                 </Tabs>

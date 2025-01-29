@@ -25,7 +25,7 @@ export default function MatrizAccesible() {
                         {colores.map(({ id, hex }) => (
                             <th
                                 key={id}
-                                className="border border-gray-300 px-6 py-3 text-center w-[15ch] font-normal"
+                                className="border border-gray-300 px-6 py-3 text-center w-[18ch] font-normal"
                                 style={{ backgroundColor: hex }}
                             >
                                 <div className="bg-gray-50 p-0 border">
@@ -47,7 +47,6 @@ export default function MatrizAccesible() {
                             >
                                 <div className="bg-white bg-transparent backdrop-opacity-100  px-2 py-1 border">
                                     <p className="text-sm token-name font-medium"> {fila[0].color1.nombre}</p>
-                                    <p className="text-[12px]">{fila[0].color1.hex}</p>
                                 </div>
                             </th>
 

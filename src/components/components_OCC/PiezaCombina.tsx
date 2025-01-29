@@ -1,6 +1,6 @@
 import { Combinacion } from "@/types/tpyes";
 import DialogInfo from "./DialogInfoA";
-import { encontrarTestMayor, testAccesibilidad } from "@/lib/utils";
+import { testAccesibilidad } from "@/lib/utils";
 import { useMemo } from "react";
 
 
@@ -11,7 +11,6 @@ export default function PiezaCombinacion({
 }) {
 
     const resultados = useMemo(() => testAccesibilidad(combinacion), [combinacion]);
-    const { testMayor ,testsPasados} = encontrarTestMayor(resultados);
     const minimoRatio = 3
     const ratioIdentico = 1
 
@@ -36,7 +35,7 @@ export default function PiezaCombinacion({
 
     return (
         <td
-            className={`border border-gray-300 text-center px-2 py-2 ${(combinacion.esMismoColor) && "ee"}`}
+            className={`border border-gray-300 text-center relative ${(combinacion.esMismoColor) && "ee"}`}
             style={bgColor}
         >
             {/*Verifcar distinto de ID */}
@@ -48,11 +47,25 @@ export default function PiezaCombinacion({
                         <p className="text-sm">Mismo color detectado.</p>
                     </div>
                 ) : (
-                    <div className="flex flex-col text-sm">
-                        <p>Distinto hex, contraste normal</p>
-                        {testsPasados}
-                    </div>
+                    <DialogInfo resultados={resultados}>
+                        <div className="flex px-4 py-4 flex-col gap-2 cursor-pointer">
+                            <p>Texto</p>
+                            <div>
+                                {
+                                    resultados[0].ratio < minimoRatio ? (
+                                        <span className="text-white p-[3px] text-sm border rounded-sm bg-red-900">
+                                            Ratio: {resultados[0].ratio}
+                                        </span>
+                                    ) : (
+                                        <span className="text-white p-[3px] text-sm border rounded-sm bg-black">
+                                            Ratio: {resultados[0].ratio}
+                                        </span>
+                                    )
+                                }
 
+                            </div>
+                        </div>
+                    </DialogInfo>
                 )
             )}
         </td>

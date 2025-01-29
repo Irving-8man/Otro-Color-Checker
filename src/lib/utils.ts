@@ -109,12 +109,8 @@ export function testAccesibilidad(combinacion: Combinacion): ResultadoTest[] {
 }
 
 export function encontrarTestMayor(resultadoTests: ResultadoTest[]) {
-    const testMayor = resultadoTests.reduce((maxTest, currentTest) =>
-        currentTest.ratio > maxTest.ratio ? currentTest : maxTest
-    );
     const testsPasados = resultadoTests.filter(test => test.resultado).length;
     return {
-        testMayor,
         testsPasados,
     };
 }

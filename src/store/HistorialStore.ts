@@ -5,10 +5,10 @@ import { generarId } from "@/lib/utils";
 
 type PaletaState = {
     paletaGlobal: PaletaColor;
-    agregarColor: (nuevoColor: Color) => void;
-    actualizarColor: (updatedColor: Color) => void;
-    eliminarColor: (id: string) => void;
-    importarColores: (coloresImport: ColorSimple[]) => void;
+    agregarColor: (nuevoColor: Color) => boolean;
+    actualizarColor: (updatedColor: Color) => boolean;
+    eliminarColor: (id: string) => boolean;
+    importarColores: (coloresImport: ColorSimple[]) => boolean;
 };
 
 
@@ -24,22 +24,27 @@ export const useHistorialStore = create<PaletaState>((set) => ({
         fechadActualizado: Date.now().toString(),
     },
 
-    agregarColor: (nuevoColor) =>
-        set((state) => {
-            if (state.paletaGlobal.colores.length >= 6) {
-                alert("La paleta solo puede contener hasta 6 colores.");
-                return state; // No se modifica el estado si ya hay 6 colores
+    agregarColor: (nuevoColor) => {
+        const coloresActuales = useHistorialStore.getState().paletaGlobal.colores;
+        if (coloresActuales.length === 6) {
+            return false;
+        }
+        set((state) => ({
+            paletaGlobal: {
+                ...state.paletaGlobal,
+                colores: [...state.paletaGlobal.colores, nuevoColor],
+                fechadActualizado: Date.now().toString(),
             }
-            return {
-                paletaGlobal: {
-                    ...state.paletaGlobal,
-                    colores: [...state.paletaGlobal.colores, nuevoColor],
-                    fechadActualizado: Date.now().toString(),
-                },
-            };
-        }),
+        }))
+        return true;
+    },
 
-    actualizarColor: (updatedColor) =>
+    actualizarColor: (updatedColor) => {
+        const exists = useHistorialStore.getState().paletaGlobal.colores.some(
+            (c) => c.id === updatedColor.id
+        );
+        if (!exists) return false;
+
         set((state) => ({
             paletaGlobal: {
                 ...state.paletaGlobal,
@@ -48,50 +53,51 @@ export const useHistorialStore = create<PaletaState>((set) => ({
                 ),
                 fechadActualizado: Date.now().toString(),
             },
-        })),
+        }));
+        return true;
+    },
 
-    eliminarColor: (id) =>
-        set((state) => {
-            if (state.paletaGlobal.colores.length <= 2) {
-                alert("La paleta debe tener al menos 2 colores.");
-                return state; // No se modifica el estado si ya tiene 2 colores
-            }
-            return {
-                paletaGlobal: {
-                    ...state.paletaGlobal,
-                    colores: state.paletaGlobal.colores.filter((color) => color.id !== id),
-                    fechadActualizado: Date.now().toString(),
-                },
-            };
-        }),
-    importarColores: (coloresImport: ColorSimple[]) =>
-        set(() => {
-            const coloresProcesados = coloresImport
-                .slice(0, 6)
-                .map((color) => {
-                    const hexCompleto = completarHex(color.hex);
-                    return hexCompleto
-                        ? { ...color, hex: `#${hexCompleto}` }
-                        : null;
-                })
-                .filter(Boolean) as ColorSimple[];
+    eliminarColor: (id) => {
+        const currentColors = useHistorialStore.getState().paletaGlobal.colores;
+        if (currentColors.length <= 2) {
+            return false;
+        }
+        set((state) => ({
+            paletaGlobal: {
+                ...state.paletaGlobal,
+                colores: state.paletaGlobal.colores.filter((color) => color.id !== id),
+                fechadActualizado: Date.now().toString(),
+            },
+        }));
+        return true;
+    },
 
-            while (coloresProcesados.length < 2) {
-                coloresProcesados.push({ nombre: "colorMas", hex: "#000000" });
-            }
+    importarColores: (coloresImport: ColorSimple[]) => {
+        const coloresProcesados = coloresImport
+            .slice(0, 6)
+            .map((color) => {
+                const hexCompleto = completarHex(color.hex);
+                return hexCompleto ? { ...color, hex: `#${hexCompleto}` } : null;
+            })
+            .filter(Boolean) as ColorSimple[];
+            
+        while (coloresProcesados.length < 2) {
+            coloresProcesados.push({ nombre: "colorDefault", hex: "#000000" });
+        }
 
-            const coloresConId: Color[] = coloresProcesados.map((color) => ({
-                ...color,
-                id: generarId()
-            }));
+        const coloresConId: Color[] = coloresProcesados.map((color) => ({
+            ...color,
+            id: generarId(),
+        }));
 
-            return {
-                paletaGlobal: {
-                    id: generarId(),
-                    colores: coloresConId,
-                    fechaCreado: Date.now().toString(),
-                    fechadActualizado: Date.now().toString(),
-                },
-            };
-        }),
+        set({
+            paletaGlobal: {
+                id: generarId(),
+                colores: coloresConId,
+                fechaCreado: Date.now().toString(),
+                fechadActualizado: Date.now().toString(),
+            },
+        });
+        return true;
+    }
 }));

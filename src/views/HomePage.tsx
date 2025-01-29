@@ -6,12 +6,13 @@ import { useHistorialStore } from "@/store/HistorialStore";
 import ImportPaleta from "@/components/components_OCC/ImportPaleta";
 import ExportPaleta from "@/components/components_OCC/ExportPaleta";
 import { generarId } from "@/lib/utils";
-
+import { useToast } from "@/hooks/use-toast";
 
 export default function HomePage() {
     const { paletaGlobal, agregarColor, actualizarColor, eliminarColor } = useHistorialStore();
     const [animationParent] = useAutoAnimate({ duration: 150 })
     const { colores } = paletaGlobal;
+    const { toast } = useToast();
 
     // Manejar nuevo color
     const handleNuevoColor = () => {
@@ -20,7 +21,17 @@ export default function HomePage() {
             nombre: `tokenColor${colores.length + 1}`,
             hex: "#000000",
         };
-        agregarColor(nuevoColor);
+        const exito = agregarColor(nuevoColor);
+        if (exito) {
+            toast({
+                title: 'Color agregado a la paleta.',
+            });
+        } else {
+            toast({
+                variant: 'destructive',
+                title: '¡Oh no!, solo puedes tener 6 colores en la paleta.',
+            });
+        }
     };
 
     return (

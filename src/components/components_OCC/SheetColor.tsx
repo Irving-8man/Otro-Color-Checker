@@ -14,6 +14,7 @@ import { ReactNode, useEffect, useState } from "react"
 import { Chrome } from '@uiw/react-color';
 import * as v from "valibot";
 import { Input } from "../ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 // Esquema de validación con Valibot
 const colorNameSchema = v.object({
@@ -34,8 +35,8 @@ export default function SheetColor(
     }: {
         children: ReactNode,
         color: Color,
-        onBorrarColor: (id: string) => void;
-        onActuliColor: (updatedColor: Color) => void;
+        onBorrarColor: (id: string) => boolean;
+        onActuliColor: (updatedColor: Color) => boolean;
     }
 ) {
     //Parte del color
@@ -43,6 +44,7 @@ export default function SheetColor(
     const [colorLocal, setColorLocal] = useState(color);
     const [error, setError] = useState<string | null>(null);
     const [open, setOpen] = useState<boolean>(false)
+    const { toast } = useToast();
 
     useEffect(() => {
         setColorLocal(color);
@@ -83,9 +85,34 @@ export default function SheetColor(
 
         setError(null);
         const updatedColor = { ...colorLocal, nombre: nombreColor };
-        onActuliColor(updatedColor); // Actualizar estado global
-        setOpen(false)
+        const exito = onActuliColor(updatedColor); // Actualizar estado global
+        if (exito) {
+            setOpen(false)
+            toast({
+                title: 'Color actualizado',
+            });
+        } else {
+            toast({
+                variant: 'destructive',
+                title: '¡Oh no!, ha fallado actulizar el color',
+            });
+        }
     };
+
+
+    const handleEliminarColor = (id:string) =>{
+        const exito = onBorrarColor(id)
+        if (exito) {
+            toast({
+                title: 'Color eliminado de la paleta.',
+            });
+        } else {
+            toast({
+                variant: 'destructive',
+                title: '¡Oh no!, son necesarios 2 colores para la paleta.',
+            });
+        }
+    }
 
     return (
         <Sheet open={open} onOpenChange={handleSheetChange}>
@@ -126,7 +153,7 @@ export default function SheetColor(
                 </div>
                 <SheetFooter>
                     <SheetClose asChild>
-                        <Button variant={"destructive"} onClick={() => onBorrarColor(color.id)}>Eliminar</Button>
+                        <Button variant={"destructive"} onClick={() => handleEliminarColor(color.id)}>Eliminar</Button>
                     </SheetClose>
                     <Button onClick={handleGuardarCambios}>Guardar cambios</Button>
                 </SheetFooter>

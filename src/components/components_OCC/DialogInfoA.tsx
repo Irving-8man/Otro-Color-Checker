@@ -14,7 +14,9 @@ import { ReactNode } from "react";
 
 
 
-export default function DialogInfo({ children, resultados }: { children: ReactNode, resultados:ResultadoTest[] }) {
+export default function DialogInfo(
+    { children, resultados }:
+    { children: ReactNode, resultados: ResultadoTest[] }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -30,8 +32,8 @@ export default function DialogInfo({ children, resultados }: { children: ReactNo
                 <div className="flex items-center space-x-2">
                     <div className="grid flex-1 gap-2">
                         {
-                            resultados.map(({nivel,resultado},idx)=>(
-                                <p key={idx}>{nivel}-{resultado ? "pasa":"no pasa"}</p>
+                            resultados.map(({ nivel, resultado }, idx) => (
+                                <p key={idx}>{nivel}-{resultado ? "pasa" : "no pasa"}</p>
                             ))
                         }
                     </div>
