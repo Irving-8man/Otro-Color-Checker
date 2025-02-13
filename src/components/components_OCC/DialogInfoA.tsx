@@ -28,7 +28,7 @@ export default function DialogInfo(
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
-            <DialogContent className="">
+            <DialogContent className="max-w-[600px]">
                 <DialogHeader>
                     <DialogTitle>Resultados de la Prueba de Contraste WCAG</DialogTitle>
                     <DialogDescription>
@@ -48,12 +48,12 @@ export default function DialogInfo(
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 grid-rows-2 flex-1 gap-x-2 gap-y-6 border border-gray-300 px-3 py-3 rounded-sm">
+                    <div className="grid grid-cols-2 grid-rows-2 flex-1 gap-x-5 gap-y-5 border border-gray-300 px-3 py-6 rounded-sm">
                         {
                             resultados.map(({ nivel, resultado }, idx) => (
                                 <div key={combinacion.id + idx} >
-                                    <p className="mb-1"><span className="font-medium">({idx+1})</span> {nivel}</p>
-                                    <span className="text-[15px]">{resultado ? "✅ Cumple" : "❌ No cumple"}</span>
+                                    <p className="mb-1 font-medium"><span className="font-medium"></span> {nivel}</p>
+                                    <span className="text-[15px] ">{resultado ? "✅ Cumple" : "❌ No cumple"}</span>
                                 </div>
                             ))
                         }

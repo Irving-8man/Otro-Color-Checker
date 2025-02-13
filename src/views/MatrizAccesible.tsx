@@ -13,15 +13,15 @@ export default function MatrizAccesible() {
 
     return (
         <main className="px-20 py-10">
-
-            <section>
-                <article className="grid grid-cols-4 py-10 border rounded-sm">
-                    <ul>
+            <section className="mb-10">
+                <article className="py-4 border rounded-sm">
+                    <p className="text-center mb-4 font-medium">✅ Criterios de Contraste WCAG</p>
+                    <ul className="grid grid-cols-4  place-items-center">
                         {
-                            NIVELES_WCAG.map(({ nivel, nombre }, idx) => (
-                                <div key={idx + 11} >
-                                    {nivel}-{nombre}
-                                </div>
+                            NIVELES_WCAG.map(({ nombre }, idx) => (
+                                <li key={idx + 11}  >
+                                    🔹 {nombre}
+                                </li>
                             ))
                         }
                     </ul>

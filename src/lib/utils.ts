@@ -74,10 +74,10 @@ export function testAccesibilidad(combinacion: Combinacion): ResultadoTest[] {
     // Si los colores son el mismo, el contraste es 1 y los resultados son 'false'
     if (esMismoColor) {
         return [
-            { nivel: 'Nivel AA - Texto grande', resultado: false, ratio: 1 },
-            { nivel: 'Nivel AA - Texto normal', resultado: false, ratio: 1 },
-            { nivel: 'Nivel AAA - Texto grande', resultado: false, ratio: 1 },
-            { nivel: 'Nivel AAA - Texto normal', resultado: false, ratio: 1 },
+            { id: generarId(), nivel: 'Nivel AA - Texto grande', resultado: false, ratio: 1 },
+            { id: generarId(), nivel: 'Nivel AA - Texto normal', resultado: false, ratio: 1 },
+            { id: generarId(), nivel: 'Nivel AAA - Texto grande', resultado: false, ratio: 1 },
+            { id: generarId(), nivel: 'Nivel AAA - Texto normal', resultado: false, ratio: 1 },
         ];
     }
 
@@ -86,21 +86,25 @@ export function testAccesibilidad(combinacion: Combinacion): ResultadoTest[] {
 
     return [
         {
+            id: generarId(),
             nivel: 'Nivel AA - Texto grande',
             resultado: ratio >= 3,
             ratio: ratioRedondeado,
         },
         {
+            id: generarId(),
             nivel: 'Nivel AA - Texto normal',
             resultado: ratio >= 4.5,
             ratio: ratioRedondeado,
         },
         {
+            id: generarId(),
             nivel: 'Nivel AAA - Texto grande',
             resultado: ratio >= 4.5,
             ratio: ratioRedondeado,
         },
         {
+            id: generarId(),
             nivel: 'Nivel AAA - Texto normal',
             resultado: ratio >= 7,
             ratio: ratioRedondeado,
@@ -132,7 +136,7 @@ export function generarCombinacionesColor(
                 color1,
                 color2,
                 esMismoColor: color1.id === color2.id,
-                id:generarId()
+                id: generarId()
             });
         }
         combinations.push(row);
@@ -152,7 +156,7 @@ export function generarCombinacionesSinRepeticion(colores: Color[]): Combinacion
                 color1,
                 color2,
                 esMismoColor: false,
-                id:generarId()
+                id: generarId()
             });
         }
     }

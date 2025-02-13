@@ -2,7 +2,7 @@ import { Combinacion } from "@/types/tpyes";
 import DialogInfo from "./DialogInfoA";
 import { testAccesibilidad } from "@/lib/utils";
 import { useMemo } from "react";
-
+import TooltipCc from "./TooltipCc";
 
 export default function PiezaCombinacion({
     combinacion
@@ -39,18 +39,22 @@ export default function PiezaCombinacion({
                     </div>
                 ) : (
                     <DialogInfo resultados={resultados} combinacion={combinacion}>
-                        <button className="flex px-4 py-4 flex-col items-center gap-2 pd w-full">
+                        <button className="flex px-5 py-5 flex-col items-center gap-2 pd w-full">
                             <p className="text-[17px] t">Texto</p>
                             <div>
                                 {
                                     resultados[0].ratio < minimoRatio ? (
-                                        <span className="text-white p-[3px] text-sm border rounded-sm bg-red-900">
-                                            Ratio: {resultados[0].ratio}
-                                        </span>
+                                        <TooltipCc resultados={resultados}  combinacion={combinacion}>
+                                            <span className="text-white p-[3px] text-xs border rounded-sm bg-red-900">
+                                                Contraste: {resultados[0].ratio}
+                                            </span>
+                                        </TooltipCc>
                                     ) : (
-                                        <span className="text-white p-[3px] text-sm border rounded-sm bg-black">
-                                            Ratio: {resultados[0].ratio}
-                                        </span>
+                                        <TooltipCc resultados={resultados}  combinacion={combinacion}>
+                                            <span className="text-white p-[3px] text-xs border rounded-sm bg-black">
+                                                Contraste: {resultados[0].ratio}
+                                            </span>
+                                        </TooltipCc>
                                     )
                                 }
                             </div>

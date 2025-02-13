@@ -32,6 +32,7 @@ export interface Combinacion {
 
 
 export interface ResultadoTest{
+	id: string;
 	nivel:string;
 	resultado:boolean;
 	ratio:number;
@@ -40,5 +41,4 @@ export interface ResultadoTest{
 
 export interface TestNivel{
 	nombre:string;
-	nivel:string;
 }
