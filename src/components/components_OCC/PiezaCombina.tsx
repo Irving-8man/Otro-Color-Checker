@@ -13,23 +13,14 @@ export default function PiezaCombinacion({
     const resultados = useMemo(() => testAccesibilidad(combinacion), [combinacion]);
     const minimoRatio = 3
     const ratioIdentico = 1
-
     let bgColor;
 
     if (combinacion.esMismoColor) {
-        bgColor = {
-
-        }
+        bgColor = {}
     } else if (resultados[0].ratio === ratioIdentico) {
-        bgColor = {
-            backgroundColor: "azure",
-            color: "#000"
-        }
+        bgColor = { backgroundColor: "azure", color: "#000" }
     } else {
-        bgColor = {
-            backgroundColor: combinacion.color1.hex,
-            color: combinacion.color2.hex,
-        }
+        bgColor = { backgroundColor: combinacion.color1.hex, color: combinacion.color2.hex }
     }
 
 
@@ -47,9 +38,9 @@ export default function PiezaCombinacion({
                         <p className="text-sm">Mismo color detectado.</p>
                     </div>
                 ) : (
-                    <DialogInfo resultados={resultados}>
-                        <div className="flex px-4 py-4 flex-col gap-2 cursor-pointer">
-                            <p>Texto</p>
+                    <DialogInfo resultados={resultados} combinacion={combinacion}>
+                        <button className="flex px-4 py-4 flex-col items-center gap-2 pd w-full">
+                            <p className="text-[17px] t">Texto</p>
                             <div>
                                 {
                                     resultados[0].ratio < minimoRatio ? (
@@ -62,9 +53,8 @@ export default function PiezaCombinacion({
                                         </span>
                                     )
                                 }
-
                             </div>
-                        </div>
+                        </button>
                     </DialogInfo>
                 )
             )}

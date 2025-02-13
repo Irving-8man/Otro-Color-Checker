@@ -24,6 +24,7 @@ export interface colorRGB {
 }
 
 export interface Combinacion {
+	id:string;
     color1: Color;
     color2: Color;
     esMismoColor: boolean;
@@ -34,4 +35,10 @@ export interface ResultadoTest{
 	nivel:string;
 	resultado:boolean;
 	ratio:number;
+}
+
+
+export interface TestNivel{
+	nombre:string;
+	nivel:string;
 }

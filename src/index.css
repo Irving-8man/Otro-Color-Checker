@@ -180,3 +180,8 @@ body {
     background-size: calc(2*var(--s)) var(--s);
 
 }
+
+
+.pd:hover .t{
+    text-decoration: underline;
+}

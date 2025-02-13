@@ -8,39 +8,60 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { ResultadoTest } from "@/types/tpyes";
+import { Combinacion, ResultadoTest } from "@/types/tpyes";
 import { ReactNode } from "react";
+import { Button } from "../ui/button";
 
 
 
 
 export default function DialogInfo(
-    { children, resultados }:
-    { children: ReactNode, resultados: ResultadoTest[] }) {
+    {
+        children,
+        resultados,
+        combinacion
+
+    }: { children: ReactNode, resultados: ResultadoTest[], combinacion: Combinacion }
+) {
     return (
         <Dialog>
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="">
                 <DialogHeader>
-                    <DialogTitle>Share link</DialogTitle>
+                    <DialogTitle>Resultados de la Prueba de Contraste WCAG</DialogTitle>
                     <DialogDescription>
-                        Anyone who has this link will be able to view this.
+                        Evaluación de accesibilidad: contraste entre fondo y texto.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="flex items-center space-x-2">
-                    <div className="grid flex-1 gap-2">
+                <div>
+                    <div className="mb-5 mt-2 flex justify-center gap-6">
+                        <div className="inline-flex gap-2 items-center">
+                            <span className="">Fondo:</span>
+                            <div className="w-10 h-6" style={{ backgroundColor: combinacion.color1.hex }}></div>
+                        </div>
+
+                        <div className="inline-flex gap-2 items-center">
+                            <span className="">Texto:</span>
+                            <div className="w-10 h-6" style={{ backgroundColor: combinacion.color2.hex }}></div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 grid-rows-2 flex-1 gap-x-2 gap-y-6 border border-gray-300 px-3 py-3 rounded-sm">
                         {
                             resultados.map(({ nivel, resultado }, idx) => (
-                                <p key={idx}>{nivel}-{resultado ? "pasa" : "no pasa"}</p>
+                                <div key={combinacion.id + idx} >
+                                    <p className="mb-1"><span className="font-medium">({idx+1})</span> {nivel}</p>
+                                    <span className="text-[15px]">{resultado ? "✅ Cumple" : "❌ No cumple"}</span>
+                                </div>
                             ))
                         }
                     </div>
                 </div>
-                <DialogFooter className="sm:justify-start">
+                <DialogFooter className="">
                     <DialogClose asChild>
-
+                        <Button variant={"default"}>Cerrar</Button>
                     </DialogClose>
                 </DialogFooter>
             </DialogContent>
