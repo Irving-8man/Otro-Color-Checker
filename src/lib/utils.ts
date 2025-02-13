@@ -155,7 +155,7 @@ export function generarCombinacionesSinRepeticion(colores: Color[]): Combinacion
             combinations.push({
                 color1,
                 color2,
-                esMismoColor: false,
+                esMismoColor:  color1.id === color2.id,
                 id: generarId()
             });
         }
