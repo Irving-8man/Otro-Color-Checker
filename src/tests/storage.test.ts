@@ -1,27 +1,25 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { usePaletaStore, genId } from "@/store/PaletaStore";
-
+import { usePaletaStore} from "@/store/PaletaStore";
+import { generarId } from "@/lib/utils";
 describe("Revision de estado de historial", () => {
 
     beforeEach(() => {
         // Reinicia el estado entre pruebas
         usePaletaStore.setState({
             paletaGlobal: {
-                id: genId().toString(),
-                nombre: "MiPaleta",
+                id: generarId().toString(),
                 colores: [
                     { id: "1", nombre: "color1", hex: "#ff5733" },
                     { id: "2", nombre: "color2", hex: "#33cfff" },
                 ],
-                fechaCreado: genId().toString(),
-                fechadActualizado: genId().toString(),
+                fechaCreado: generarId().toString(),
+                fechadActualizado: generarId().toString(),
             },
         });
     });
 
     it("deberia devolver la paleta por defaut", () => {
         const his = usePaletaStore.getState()
-        expect(his.paletaGlobal.nombre).toBe("MiPaleta")
         expect(his.paletaGlobal.colores).toHaveLength(2);
     })
 
