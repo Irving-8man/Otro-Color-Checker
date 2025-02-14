@@ -31,6 +31,7 @@
     "react-dom": "19.0.0",
     "react-qr-code": "2.0.15",
     "react-tooltip": "5.28.0",
+    "sonner": "1.7.4",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "valibot": "1.0.0-beta.12",

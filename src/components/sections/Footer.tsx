@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-        <footer className="flex justify-center py-4">
+        <footer className="flex justify-center py-3 mt-5">
             <span>Hecho con ❤️ por <span><a
                 href="https://www.linkedin.com/in/irving-cupul-uc-3b7045209"
                 title=""

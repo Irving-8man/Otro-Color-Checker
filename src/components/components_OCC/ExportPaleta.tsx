@@ -22,14 +22,16 @@ import {
 import { Textarea } from "../ui/textarea"
 import { usePaletaStore } from "@/store/PaletaStore";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner";
+
+
 
 export default function ExportPaleta() {
     const {paletaGlobal} = usePaletaStore();
     const [activeTab, setActiveTab] = useState<"CSS" | "JSON" | "TEXTO">("CSS");
     const [loading, setLoading] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
-    const {toast} = useToast()
+
 
     const generarExportacion = () => {
         if (activeTab === "CSS") {
@@ -60,15 +62,12 @@ export default function ExportPaleta() {
         navigator.clipboard.writeText(contenido)
             .then(() => {
                 setOpen(false)
-                toast({
-                    title: `${activeTab} copiado al portapapeles.`,
-                });
+                toast.success(`${activeTab} copiado al portapapeles`,{closeButton:true});
             })
             .catch((err) => {
                 console.error("Error al copiar al portapapeles:", err);
-                toast({
-                    variant: 'destructive',
-                    title: '¡Oh no!, No se pudo copiar. Inténtalo nuevamente.',
+                toast.error("¡Oh no!, No se pudo copiar. Inténtalo nuevamente",{
+                    closeButton:true
                 });
 
             }).finally(()=>{

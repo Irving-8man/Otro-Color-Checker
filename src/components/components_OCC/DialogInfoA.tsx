@@ -28,23 +28,29 @@ export default function DialogInfo(
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
-            <DialogContent className="max-w-[600px]">
+            <DialogContent className="max-w-[600px] err">
                 <DialogHeader>
                     <DialogTitle>Resultados de la Prueba de Contraste WCAG</DialogTitle>
                     <DialogDescription>
                         Evaluación de accesibilidad: contraste entre fondo y texto.
                     </DialogDescription>
                 </DialogHeader>
-                <div>
-                    <div className="mb-5 mt-2 flex justify-center gap-6">
-                        <div className="inline-flex gap-2 items-center">
-                            <span className="">Fondo:</span>
-                            <div className="w-10 h-6" style={{ backgroundColor: combinacion.color1.hex }}></div>
+                <div className="err">
+                    <div className="mb-5 mt-2 flex justify-center gap-8">
+                        <div className="flex flex-col items-center">
+                            <div className="inline-flex gap-2 items-center">
+                                <span className="">Fondo:</span>
+                                <div className="w-10 h-6" style={{ backgroundColor: combinacion.color1.hex }}></div>
+                            </div>
+                            <span className="text-sm text-gray-500">{combinacion.color1.hex}</span>
                         </div>
 
-                        <div className="inline-flex gap-2 items-center">
-                            <span className="">Texto:</span>
-                            <div className="w-10 h-6" style={{ backgroundColor: combinacion.color2.hex }}></div>
+                        <div className="flex flex-col items-center">
+                            <div className="inline-flex gap-2 items-center">
+                                <span className="">Texto:</span>
+                                <div className="w-10 h-6" style={{ backgroundColor: combinacion.color2.hex }}></div>
+                            </div>
+                            <span className="text-sm text-gray-500">{combinacion.color2.hex}</span>
                         </div>
                     </div>
 

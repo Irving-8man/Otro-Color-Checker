@@ -14,7 +14,7 @@ import { ReactNode, useEffect, useState } from "react"
 import { Chrome } from '@uiw/react-color';
 import * as v from "valibot";
 import { Input } from "../ui/input";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 // Esquema de validación con Valibot
 const colorNameSchema = v.object({
@@ -44,7 +44,6 @@ export default function SheetColor(
     const [colorLocal, setColorLocal] = useState(color);
     const [error, setError] = useState<string | null>(null);
     const [open, setOpen] = useState<boolean>(false)
-    const { toast } = useToast();
 
     useEffect(() => {
         setColorLocal(color);
@@ -88,28 +87,26 @@ export default function SheetColor(
         const exito = onActuliColor(updatedColor); // Actualizar estado global
         if (exito) {
             setOpen(false)
-            toast({
-                title: 'Color actualizado',
+            toast.success("Color actualizado", {
+                closeButton: true
             });
         } else {
-            toast({
-                variant: 'destructive',
-                title: '¡Oh no!, ha fallado actulizar el color',
+            toast.error("¡Oh no!, ha fallado actulizar el color", {
+                closeButton: true
             });
         }
     };
 
 
-    const handleEliminarColor = (id:string) =>{
+    const handleEliminarColor = (id: string) => {
         const exito = onBorrarColor(id)
         if (exito) {
-            toast({
-                title: 'Color eliminado de la paleta.',
+            toast.success('Color eliminado de la paleta',{
+                closeButton:true
             });
         } else {
-            toast({
-                variant: 'destructive',
-                title: '¡Oh no!, son necesarios 2 colores para la paleta.',
+            toast.error('¡Oh no!, son necesarios 2 colores para la paleta',{
+                closeButton:true
             });
         }
     }
@@ -151,7 +148,7 @@ export default function SheetColor(
                     </div>
 
                 </div>
-                <SheetFooter>
+                <SheetFooter className="gap-3">
                     <SheetClose asChild>
                         <Button variant={"destructive"} onClick={() => handleEliminarColor(color.id)}>Eliminar</Button>
                     </SheetClose>

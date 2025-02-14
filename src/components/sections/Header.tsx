@@ -22,14 +22,14 @@ export default function Header() {
     };*/
     return (
         <>
-            <header className="flex justify-between py-3 items-start px-3 lg:px-20">
+            <header className="flex justify-between py-3 items-start px-3 md:px-10 lg:px-20">
                 <h1 className="text-lg">Otro Color Checker</h1>
 
                 <nav>
                     <ul className="flex gap-3 items-center">
                         <li>
                             <a
-                                href="https://github.com/Irving-8man/Un-Color-Checker"
+                                href="https://github.com/Irving-8man/Otro-Color-Checker"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >

@@ -23,9 +23,7 @@ import { Textarea } from "../ui/textarea"
 import { useState } from "react"
 import { usePaletaStore } from "@/store/PaletaStore"
 import { ColorSimple } from "@/types/tpyes"
-import { useToast } from "@/hooks/use-toast"
-
-
+import { toast } from "sonner";
 
 export default function ImportPaleta() {
     // Estados iniciales
@@ -47,7 +45,6 @@ export default function ImportPaleta() {
     const [loading, setLoading] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
     const { importarColores } = usePaletaStore();
-    const { toast } = useToast()
 
     // Restablece los estados al cerrar el diálogo
     const handleDialogClose = (isOpen: boolean) => {
@@ -111,19 +108,15 @@ export default function ImportPaleta() {
             }
 
             if (exito) {
-                toast({
-                    title: 'Paleta importada con exito.',
-                });
+                toast.success('Paleta importada con exito',{closeButton:true});
             } else {
-                toast({
-                    variant: 'destructive',
-                    title: '¡Oh no!, la paleta no se ha importado.',
+                toast.error("¡Oh no!, la paleta no se ha importado.",{
+                    closeButton:true
                 });
             }
         } catch (error) {
-            toast({
-                variant: 'destructive',
-                title: `¡Oh no!, Error al importar. ${error}.`,
+            toast.error(`¡Oh no!, Error al importar. ${error}`,{
+                closeButton:true
             });
         } finally {
             setLoading(false);

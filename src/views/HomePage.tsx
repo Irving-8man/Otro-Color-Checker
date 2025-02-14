@@ -6,13 +6,13 @@ import { usePaletaStore } from "@/store/PaletaStore";
 import ImportPaleta from "@/components/components_OCC/ImportPaleta";
 import ExportPaleta from "@/components/components_OCC/ExportPaleta";
 import { generarId } from "@/lib/utils";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 export default function HomePage() {
     const { paletaGlobal, agregarColor, actualizarColor, eliminarColor } = usePaletaStore();
     const [animationParent] = useAutoAnimate({ duration: 150 })
     const { colores } = paletaGlobal;
-    const { toast } = useToast();
+
 
     // Manejar nuevo color
     const handleNuevoColor = () => {
@@ -23,13 +23,13 @@ export default function HomePage() {
         };
         const exito = agregarColor(nuevoColor);
         if (exito) {
-            toast({
-                title: 'Color agregado a la paleta.',
+            toast.success("Color agregado a la paleta",{
+                duration:10000,
+                closeButton:true,
             });
         } else {
-            toast({
-                variant: 'destructive',
-                title: '¡Oh no!, solo puedes tener 6 colores en la paleta.',
+            toast.error("¡Oh no!, solo puedes tener 6 colores en la paleta",{
+                closeButton:true,
             });
         }
     };
@@ -38,11 +38,11 @@ export default function HomePage() {
         <main>
             <section className="mt-4">
                 <article className="flex justify-center md:justify-end">
-                    <ul className="grid grid-cols-2 justify-items-center gap-4 md:flex lg:gap-4 px-6 md:px-20">
+                    <ul className="grid grid-cols-2 justify-items-center gap-4 md:flex lg:gap-4  px-3 md:px-10 lg:px-20">
                         <li className="col-span-2">
                             <Button className="items-center" onClick={handleNuevoColor}>
                                 <Plus />
-                                <span>Nuevo color</span>
+                                <span className="">Nuevo color</span>
                             </Button>
                         </li>
                         <li>
@@ -57,7 +57,7 @@ export default function HomePage() {
 
             <section className="flex justify-center mt-10 px-6 md:px-20">
                 <ul
-                    className="flex flex-wrap md:flex-nowrap gap-4 justify-center"
+                    className="flex flex-wrap lg:flex-nowrap gap-4 justify-center"
                     ref={animationParent}
                 >
                     {colores.map((color) => (

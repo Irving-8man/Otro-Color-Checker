@@ -84,6 +84,10 @@ html {
     fill: white;
 }
 
+.dark .err{
+    background: hsl(0, 1%, 13%);
+    color: hsl(0 0% 96%);
+}
 
 
 header svg {
