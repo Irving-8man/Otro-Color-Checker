@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { Color, colorRGB, Combinacion, ResultadoTest } from "@/types/tpyes";
+import { Color, colorRGB, Combinacion,  ResultadoTest } from "@/types/tpyes";
 import { nanoid } from "nanoid";
 
 export function cn(...inputs: ClassValue[]) {
@@ -155,12 +155,10 @@ export function generarCombinacionesSinRepeticion(colores: Color[]): Combinacion
             combinations.push({
                 color1,
                 color2,
-                esMismoColor:  color1.id === color2.id,
+                esMismoColor: color1.id === color2.id,
                 id: generarId()
             });
         }
     }
     return combinations;
 }
-
-

@@ -13,7 +13,7 @@ type PaletaState = {
 
 
 
-export const useHistorialStore = create<PaletaState>((set) => ({
+export const usePaletaStore = create<PaletaState>((set) => ({
     paletaGlobal: {
         id: generarId(),
         colores: [
@@ -25,7 +25,7 @@ export const useHistorialStore = create<PaletaState>((set) => ({
     },
 
     agregarColor: (nuevoColor) => {
-        const coloresActuales = useHistorialStore.getState().paletaGlobal.colores;
+        const coloresActuales = usePaletaStore.getState().paletaGlobal.colores;
         if (coloresActuales.length === 6) {
             return false;
         }
@@ -40,7 +40,7 @@ export const useHistorialStore = create<PaletaState>((set) => ({
     },
 
     actualizarColor: (updatedColor) => {
-        const exists = useHistorialStore.getState().paletaGlobal.colores.some(
+        const exists = usePaletaStore.getState().paletaGlobal.colores.some(
             (c) => c.id === updatedColor.id
         );
         if (!exists) return false;
@@ -58,7 +58,7 @@ export const useHistorialStore = create<PaletaState>((set) => ({
     },
 
     eliminarColor: (id) => {
-        const currentColors = useHistorialStore.getState().paletaGlobal.colores;
+        const currentColors = usePaletaStore.getState().paletaGlobal.colores;
         if (currentColors.length <= 2) {
             return false;
         }

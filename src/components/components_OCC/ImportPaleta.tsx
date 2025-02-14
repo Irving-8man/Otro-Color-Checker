@@ -21,7 +21,7 @@ import {
 } from "../ui/card"
 import { Textarea } from "../ui/textarea"
 import { useState } from "react"
-import { useHistorialStore } from "@/store/HistorialStore"
+import { usePaletaStore } from "@/store/PaletaStore"
 import { ColorSimple } from "@/types/tpyes"
 import { useToast } from "@/hooks/use-toast"
 
@@ -46,7 +46,7 @@ export default function ImportPaleta() {
     const [activeTab, setActiveTab] = useState<"CSS" | "JSON">("CSS");
     const [loading, setLoading] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
-    const { importarColores } = useHistorialStore();
+    const { importarColores } = usePaletaStore();
     const { toast } = useToast()
 
     // Restablece los estados al cerrar el diálogo

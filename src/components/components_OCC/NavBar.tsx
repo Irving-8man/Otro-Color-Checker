@@ -1,4 +1,4 @@
-import { Eye, Grid2x2, Palette } from "lucide-react";
+import { Grid2x2, Palette } from "lucide-react";
 import { Link } from "wouter";
 
 
@@ -15,11 +15,11 @@ export default function NavBar() {
             nombre: "Accesibilidad",
             link: "/matriz-accesibilidad",
             icon: Grid2x2
-        }, {
+        },/* {
             nombre: "En acción",
             link: "/vista-previa",
             icon: Eye
-        }/*, {
+        }, {
             nombre: "Daltonismo",
             link: "/daltonismo",
             icon: ScanEye

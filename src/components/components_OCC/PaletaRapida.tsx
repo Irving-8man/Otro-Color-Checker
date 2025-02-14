@@ -1,8 +1,8 @@
-import { useHistorialStore } from "@/store/HistorialStore";
+import { usePaletaStore } from "@/store/PaletaStore";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export default function PaletaRapida() {
-    const { paletaGlobal, actualizarColor } = useHistorialStore();
+    const { paletaGlobal, actualizarColor } = usePaletaStore();
     const [animationParent] = useAutoAnimate({ duration: 150 })
     const { colores } = paletaGlobal
 

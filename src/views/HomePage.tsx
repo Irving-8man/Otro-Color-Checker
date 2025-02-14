@@ -2,14 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import SheetColor from "@/components/components_OCC/SheetColor";
-import { useHistorialStore } from "@/store/HistorialStore";
+import { usePaletaStore } from "@/store/PaletaStore";
 import ImportPaleta from "@/components/components_OCC/ImportPaleta";
 import ExportPaleta from "@/components/components_OCC/ExportPaleta";
 import { generarId } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
 export default function HomePage() {
-    const { paletaGlobal, agregarColor, actualizarColor, eliminarColor } = useHistorialStore();
+    const { paletaGlobal, agregarColor, actualizarColor, eliminarColor } = usePaletaStore();
     const [animationParent] = useAutoAnimate({ duration: 150 })
     const { colores } = paletaGlobal;
     const { toast } = useToast();

@@ -1,11 +1,11 @@
 import PiezaCombinacion from "@/components/components_OCC/PiezaCombina";
 import { generarCombinacionesColor } from "@/lib/utils";
-import { useHistorialStore } from "@/store/HistorialStore";
+import { usePaletaStore } from "@/store/PaletaStore";
 import { useMemo } from "react";
 import { NIVELES_WCAG } from "@/constants/evalWCAG";
 
 export default function MatrizAccesible() {
-    const { paletaGlobal } = useHistorialStore();
+    const { paletaGlobal } = usePaletaStore();
     const { colores } = paletaGlobal
     const combinaciones = useMemo(() => {
         return generarCombinacionesColor(colores);
