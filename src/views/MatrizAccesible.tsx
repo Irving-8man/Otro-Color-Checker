@@ -67,10 +67,10 @@ export default function MatrizAccesible() {
                     <div>
                         <ul className="space-y-4">
                             {combinaciones.map((fila, index) => (
-                                <li key={index} className="border p-4 rounded-md bg-gray-100">
+                                <li key={index} className="border p-4 rounded-md bg-gray-100 my-14">
 
                                     <p className="font-semibold text-lg inline-flex gap-2 items-center mb-3">
-                                        Fondo: {fila[0].color1.nombre} <span className="w-5 h-5 block" style={{ backgroundColor: fila[0].color1.hex }}></span>
+                                        Fondo: {fila[0].color1.nombre} <span className="w-6 h-6 block border border-black" style={{ backgroundColor: fila[0].color1.hex }}></span>
                                     </p>
                                     <div className="mt-2 grid grid-cols-2 gap-2">
                                         {fila.map((combinacion) => (
